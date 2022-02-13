@@ -1,0 +1,77 @@
+1.	WHERE Clause is used to filter the records from the table based on the specified condition.	HAVING Clause is used to filter record from the groups based on the specified condition.
+2.	WHERE Clause can be used without GROUP BY Clause	HAVING Clause cannot be used without GROUP BY Clause
+3.	WHERE Clause implements in row operations	HAVING Clause implements in column operation
+4.	WHERE Clause cannot contain aggregate function	HAVING Clause can contain aggregate function
+5.	WHERE Clause can be used with SELECT, UPDATE, DELETE statement.	HAVING Clause can only be used with SELECT statement.
+6.	WHERE Clause is used before GROUP BY Clause	HAVING Clause is used after GROUP BY Clause
+7.	WHERE Clause is used with single row function like UPPER, LOWER etc.	HAVING Clause is used with multiple row function like SUM, COUNT etc.
+
+------------------------------------------------------------------------------------
+
+SET TRANSACTION - set isolation lecel for subsequent transaction
+Transaction boundaries
+* START TRANSACTIONS
+* COMMIT
+* ROLLBACK
+
+ Savepoints
+* SAVEPOINT
+* RElEASE SAVEPOINT
+* ROLLBACK TO
+
+
+------------------------------------------------------------------------------------
+ROLLBACK TO SAVEPOINT_NAME;
+
+The RELEASE SAVEPOINT Command
+
+The RELEASE SAVEPOINT command is used to remove a SAVEPOINT that you have created.
+
+The syntax for a RELEASE SAVEPOINT command is as follows.
+
+RELEASE SAVEPOINT SAVEPOINT_NAME;
+
+--------------------------------------------------
+
+What are Transactions?
+
+Transactions group a set of tasks into a single execution unit. Each transaction begins with a specific task and ends when all the tasks in the group successfully complete. If any of the tasks fail, the transaction fails. Therefore, a transaction has only two results: success or failure. 
+
+Incomplete steps result in the failure of the transaction. A database transaction, by definition, must be atomic, consistent, isolated and durable. These are popularly known as 
+ACID properties. 
+ 
+
+How to implement Transactions using SQL?
+
+Following commands are used to control transactions. It is important to note that these statements cannot be used while creating tables and are only used with the DML Commands such as – INSERT, UPDATE and DELETE. 
+ 
+
+1. BEGIN TRANSACTION: It indicates the start point of an explicit or local transaction. 
+
+Syntax:
+
+BEGIN TRANSACTION transaction_name ;
+2. SET TRANSACTION: Places a name on a transaction. 
+
+Syntax: 
+
+SET TRANSACTION [ READ WRITE | READ ONLY ];
+
+-----------------------------------------------------------------------------
+DROP TRIGGER IF EXISTS tr_ins_char;
+DROP TRIGGER IF EXISTS tr_up_char; 
+
+CREATE TRiGGER tr_ins_char   => kreira triger koji se izvrsava na insert u characters
+BEFORE INSERT ON characters
+FOR EACH ROW
+SET NEW.character_name = UPPER(NEW.character_name);
+
+--OLD
+
+CREATE TRIGGER tr_up_char
+BEFORE UPDATE ON characters
+FOR EACH ROW
+SET NEW.character_name =LOWER(NEW.character_name);  
+
+------------------------------------------------------
+https://www.weboteka.net/fpz/Baze%20podataka/Predavanja/05%20-%20BP%20-%2006.tjedan.pdf referentni integritet

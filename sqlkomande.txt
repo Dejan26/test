@@ -1,0 +1,74 @@
+CREATE DATABASE ...; => pravi database
+DROP DATABASE ...; => brise database
+USE ...; => koristi database koji smo napisali
+CREATE TABLE test (test_column INT); => pravljenje tabele i jedne kolone u njoj
+ALTER TABLE test ADD another_column VARCHAR(255); => dodavanje nove kolone
+ALTER TABLE "table_name" DROP "column_name"; => brisanje kolone iz tabele
+ALTER TABLE "table_name" DROP COLUMN "column_name";
+DROP TABLE test; => brisanje tabele
+CREATE TABLE bands (id INT NOT NULL AUTO_INCREMENT,name VARCHAR(255) NOT NULL,PRIMARY KEY(id)); => pravljenje tabele sa vise kolona
+FOREIGN KEY (id koji hocemo da povezemo) REFERENCES bands (id na koji hocemo da povezemo); => komanda kada se pravi novi table
+ALTER TABLE Orders ADD CONSTRAINT FK_PersonOrder FOREIGN KEY (PersonID) REFERENCES Persons(PersonID);
+ALTER TABLE Orders DROP FOREIGN KEY FK_PersonOrder;
+ALTER TABLE studenti RENAME COLUMN id TO id_studenata; => menjanje imena kolone
+ALTER TABLE employee_details MODIFY emp_id int NOT NULL AUTO_INCREMENT;
+TRUNCATE TABLE ocene; => brisanje sa resetovanjem auto incrementa
+
+INSERT INTO bands (name) VALUES ('Iron Maiden'); => pravljenje novih vrednosti u koloni
+INSERT INTO bands (name) VALUES ('Iron Maiden'),('....'),('....'); => kada dodajemo vise vrednosti u kolonu
+INSERT INTO albums (name, release_year, band_id) VALUES ('.....',1985,1),('.....',1988,2),('.....',1986,3); => dodavanje vrednosti i kolone
+SELECT * FROM bands; => selektovanje svega iz tabele i prikaz
+SELECT * FROM bands LIMIT 2; => selektovanje svega iz tabele i prikaz samo 2 prve vrednosti
+SELECT name FROM bands; => selektovanje i prikaz name iz tabele bands
+SELECT id AS 'ID',name AS 'Bands Name' FROM bands; => menjanje imena kolonama iz tabele
+SELECT * FROM bands ORDER BY name; => redjanje vrednosti iz kolone po alfabetu
+SELECT * FROM bands ORDER BY name DESC; => redjanje vrednosti iz kolone po alfabetu obrnuto
+SELECT DISTINCT name FROM albums; => ne prikazuje duplikate
+UPDATE albums SET release_year = 1982 WHERE id=1; => apdejtuje kolonu a WHERE odredjuje kolonu kojeg id
+SELECT * FROM albums WHERE release_year<2000; => filtrira release_year<2000
+SELECT * FROM albums WHERE name LIKE '%er%'; => LIKE '%er%' oznacava da u name hocemo vrednosti koje sadrze er 
+SELECT * FROM albums WHERE name LIKE '%er%' OR band_id = 2; => umesto OR moze AND 
+SELECT * FROM albums WHERE release_year BETWEEN 2000 AND 2018; => vrednosti od do
+SELECT * FROM albums WHERE release_year IS NULL; => svi koji nemaju vrednost unetu u kolonu
+DELETE FROM albums WHERE id = 5; => brisanje odredjenog reda iz kolone
+SELECT * FROM bands JOIN albums ON bands.id = albums.band_id; => spajanje  po id
+SELECT * FROM bands INNER JOIN albums ON bands.id = albums.band_id; => spajanje  po id (isto kao bez inner)
+SELECT * FROM bands LEFT JOIN albums ON bands.id = albums.band_id; => spaja levu stranu iako nema nista na desnoj
+SELECT * FROM bands RIGHT JOIN albums ON bands.id = albums.band_id; =>
+SELECT AVG(release_year) FROM albums; => prosek
+SELECT AVG(column_name) FROM table_name WHERE condition; 
+SELECT SUM(release_year) FROM albums; => zbir
+SELECT b.name AS band_name, COUNT(a.id) AS num_albums FROM bands AS b LEFT JOIN albums AS a ON b.id = a.band_id WHERE b.name = 'Deuce' GROUP BY b.id HAVING num_albums = 1; => 
+SELECT * FROM Customers WHERE Country IN ('Germany', 'France', 'UK'); => izlistava sve Customers iz zemalja u zagradi
+SELECT * FROM Customers WHERE Country NOT IN ('Germany', 'France', 'UK');
+SELECT * FROM Customers WHERE Country IN (SELECT Country FROM Suppliers); => izlistava sve Customers koje imaje Country u Suppliers
+
+FOREIGN KEY
+
+ALTER TABLE characters DROP FOREIGN KEY `fk_character_race`; 
+DROP TABLE IF EXISTS races;
+DROP TABLE IF EXISTS characters;
+
+CREATE TABLE races (
+   race_id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+   race_name VARCHAR(30) NOT NULL
+)ENGINE=INNODB;
+
+CREATE TABLE characters(
+    character_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY Key,
+    character_name VARCHAR(50) NOT NULL,
+    race_id TINYINT UNSIGNED NOT NULL, 
+    INDEX `idx_race`(race_id),
+    CONSTRAINT `fk_character_race`
+    FOREIGN KEY (race_id)
+    REFERENCES races(race_id) ON UPDATE CASCADE ON DELETE RESTRICT
+)ENGINE=INNODB;
+
+
+zadatak sa ocenama => SELECT ime,AVG(ocene_k) AS prosek_ocena FROM ocene INNER JOIN studenti ON studenti.id_studenata = ocene.id_studenata GROUP BY ime ORDER BY prosek_ocena DESC LIMIT 10;
+
+zadatak sa telefonima => SELECT proizvodjac.id_proizvodjaca,AVG(cene_mobilnih.cene),proizvodjac.brend_proizvodjaca
+FROM proizvodjac INNER JOIN cene_mobilnih
+ON proizvodjac.id_proizvodjaca=cene_mobilnih.id_proizvodjaca
+GROUP BY proizvodjac.id_proizvodjaca
+HAVING AVG(cene_mobilnih.cene) between 300 and 600;
